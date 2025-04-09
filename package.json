@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pnpm -C ./packages/backend start & pnpm -C ./packages/frontend dev",
     "dev:front": "pnpm --filter frontend dev",
-    "dev:back": "pnpm --filter backend start"
+    "dev:back": "pnpm --filter backend start",
+    "clear": "rm -rf node_modules **/*/node_modules"
   },
   "keywords": [],
   "author": "",
