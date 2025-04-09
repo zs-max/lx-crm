@@ -1,6 +1,6 @@
 {
-  "name": "shared",
-  "version": "1.0.0",
+  "name": "@lx-crm/shared",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
