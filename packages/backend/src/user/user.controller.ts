@@ -3,8 +3,11 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as svgCaptcha from 'svg-captcha'
+import { ApiOperation, ApiTags,ApiParam,ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags("用户模块")
+@ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -16,12 +19,14 @@ export class UserController {
  
 
   @Post()
+  @ApiOperation({summary:"新建用户",description:"写入用户信息"})
   create(@Body() createUserDto: CreateUserDto) {
     console.log(createUserDto,'0000')
     return this.userService.create(createUserDto);
   }
  
   @Get()
+  @ApiQuery({name:"xxxx",description:"bbb"})
   findAll(@Query() query:{keyWord:string,page:number,pageSize:number}) {
     const { keyWord = '', page = 1, pageSize = 10 } = query;
     return this.userService.findAll({ keyWord, page, pageSize } );
@@ -29,6 +34,7 @@ export class UserController {
  
  
   @Patch(':id')
+  @ApiParam({name:"id",description:"用户id",required:true})
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }

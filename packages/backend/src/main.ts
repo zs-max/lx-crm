@@ -14,6 +14,7 @@ async function bootstrap() {
   })
   app.use(session({secret:"Lek",name:"lek.session",rolling:true})) 
   const options =  new DocumentBuilder()
+                       .addBearerAuth()
                        .setTitle("lx-crm接口文档")
                        .setDescription("后台接口相关API")
                        .setVersion("1")

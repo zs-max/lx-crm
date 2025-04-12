@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { GoodsService } from './goods.service';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('goods')
+@ApiTags("商品模块")
 export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
 
