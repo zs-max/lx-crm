@@ -1,4 +1,7 @@
 {
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
   "name": "lx-crm",
   "version": "1.0.0",
   "description": "",
