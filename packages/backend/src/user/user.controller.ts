@@ -8,6 +8,34 @@ import * as svgCaptcha from 'svg-captcha'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+ 
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    console.log(createUserDto,'0000')
+    return this.userService.create(createUserDto);
+  }
+ 
+  @Get()
+  findAll(@Query() query:{keyWord:string,page:number,pageSize:number}) {
+    const { keyWord = '', page = 1, pageSize = 10 } = query;
+    return this.userService.findAll({ keyWord, page, pageSize } );
+  }
+ 
+ 
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
+  }
+ 
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
+  }
+
+
+
+
+
 
   /**
    * 获取验证码

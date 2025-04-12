@@ -1,12 +1,12 @@
 <script setup>
-import Login from '@/views/login/index.vue'
+import User from '@/views/user/index.vue'
 import { sayHello } from '@lx-crm/shared/utils'
 sayHello()
 </script>
 
 <template>
   <div class="page">
-    <Login></Login>
+    <User></User>
   </div>
 </template>
 
