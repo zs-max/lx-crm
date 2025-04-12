@@ -1,6 +1,5 @@
 import {Entity,Column,PrimaryGeneratedColumn, CreateDateColumn, ManyToOne,JoinColumn} from 'typeorm'
 import { User } from './user.entity'
-import { Exclude } from 'class-transformer'
 
 
 @Entity()
