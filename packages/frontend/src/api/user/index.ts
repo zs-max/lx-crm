@@ -8,3 +8,5 @@ export const getList = (data) => axios.get('/api/user',{params:data}).then(res =
 export const delUser = (data) => axios.delete(`/api/user/${data.id}`).then(res => res.data)
  
 export const updateUser = (data) => axios.patch(`/api/user/${data.id}`,data).then(res => res.data)
+
+export const addTags = (data) => axios.post(`/api/user/add/tags`,data).then(res => res.data)

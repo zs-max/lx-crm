@@ -8,7 +8,13 @@ import * as svgCaptcha from 'svg-captcha'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+
+  @Post('/add/tags')
+  addTags(@Body() params:{tags:string[],userId:number}){
+    return this.userService.addTags(params)
+  }
  
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     console.log(createUserDto,'0000')

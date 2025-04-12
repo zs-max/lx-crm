@@ -4,12 +4,34 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository,Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { Tags } from './entities/tags.entity';
 
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private readonly user: Repository<User>) { }
-  create(createUserDto: CreateUserDto) {
+  constructor(@InjectRepository(User) private readonly user: Repository<User>,@InjectRepository(Tags) private readonly tags: Repository<Tags>) { }
+
+  async addTags(params:{tags:string[],userId:number}){
+    const userInfo = await this.user.findOne({where:{id:params.userId}})
+
+    console.log(userInfo,11,params.tags)
+    const tagList:Tags[] = []
+    if (!userInfo) {
+      throw new Error('User not found');
+    }
+    for (const item of params.tags) {
+      const T =  new Tags()
+      T.name = item;
+      T.userId = userInfo.id
+      await this.tags.save(T)
+      tagList.push(T)  
+    }
+    userInfo.tags = tagList
+    return this.user.save(userInfo)
+  }
+
+
+  async create(createUserDto: CreateUserDto) {
     const data = new User()
     data.name = createUserDto.name
     data.address = createUserDto.address
@@ -26,6 +48,7 @@ export class UserService {
       },
       skip: (query.page - 1)* query.pageSize,
       take: query.pageSize,
+      relations:['tags']
     })
     const total = await this.user.count({
       where: {

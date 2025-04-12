@@ -7,16 +7,18 @@
         </div>
         <el-table border :data="tableData" style="width: 100%;margin-top: 30px;">
             <el-table-column prop="name" label="名字" />
-            <el-table-column prop="address" label="描述" />
+            <el-table-column prop="address" label="地址" />
+
             <el-table-column prop="id" label="id" />
             <el-table-column>
                 <template #default="scope">
                     <el-button @click="edit(scope.row)">编辑</el-button>
                     <el-button @click="deleteRow(scope.row)">删除</el-button>
+                    <el-button @click="(isShowTag = true, row = scope.row)">添加tag</el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination @current-change="changeSize" style="float:right;margin-top:10px;" background
+        <el-pagination @current-change="change" style="float:right;margin-top:10px;" background
             layout="prev, pager, next" :total="total" />
     </div>
 
@@ -39,13 +41,40 @@
             </span>
         </template>
     </el-dialog>
+    <el-dialog v-model="isShowTag" title="添加tag">
+        <el-select style="width:100%" v-model="tags" multiple>
+            <el-option value="tag1">tag1</el-option>
+            <el-option value="tag2">tag2</el-option>
+            <el-option value="tag3">tag3</el-option>
+        </el-select>
+        <template #footer>
+            <el-button @click="addTa" type="primary">确定</el-button>
+        </template>
+
+    </el-dialog>
 </template>
 
 <script setup lang='ts'>
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
-import { addUser, updateUser, delUser, getList } from '@/api/user/index'
+import { addUser, updateUser, delUser, getList, addTags } from '@/api/user/index'
+const isShowTag = ref<boolean>(false)
+const tags = ref<string[]>([])
 const total = ref<number>(0)
+const row = ref<{
+    id?: number,
+    name?: string,
+    address?: string,
+    createTime?: Date
+}>({})
+const addTa = async () => {
+    const res = await addTags({
+        tags: tags.value,
+        userId: row.value.id
+    })
+    isShowTag.value = false;
+    tags.value = [];
+}
 //搜索框
 const search = reactive({
     keyWord: "",
@@ -71,12 +100,12 @@ const openDialog = () => {
 //初始化表格数据
 const init = async () => {
     const list = await getList(search)
-    tableData.value = list?.data ?? []
+    tableData.value = list?.data ?? [];
     total.value = list?.total ?? 0
 }
 init()
-const changeSize = (page) => {
-    search.page = page
+const change = (page) => {
+    search.page = page;
     init()
 }
 //保存 和修改 表格数据
@@ -106,7 +135,7 @@ const close = () => {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 * {
     padding: 0;
     margin: 0;
