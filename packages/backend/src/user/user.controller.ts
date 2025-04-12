@@ -2,8 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import path from 'path';
+import { version } from 'os';
 
-@Controller('user')
+@Controller({
+  path:'user',
+  version:'1'
+})
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
